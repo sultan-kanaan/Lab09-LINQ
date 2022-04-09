@@ -10,7 +10,7 @@ namespace LINQ
     {
         static void Main(string[] args)
         {
-            string path = "../../../json1.json";
+            string path = @"../../../json1.json";
             string readFile = File.ReadAllText(path);
             List<Features> manhattanPlaces = new List<Features>();
             FeatureCollection Places = JsonConvert.DeserializeObject < FeatureCollection > (readFile);
