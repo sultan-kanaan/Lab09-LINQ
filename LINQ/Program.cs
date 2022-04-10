@@ -33,6 +33,10 @@ namespace LINQ
             NoDuplicates(Places);
             SingleQuery(Places);
 
+            Console.WriteLine("\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Beep();
+            Console.WriteLine("Code By Sultan Kanaan");
             Console.ReadKey();
         }
         public static void ListAll(FeatureCollection Places)
