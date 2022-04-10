@@ -12,36 +12,44 @@ namespace LINQ
         {
             string path = @"../../../json1.json";
             string readFile = File.ReadAllText(path);
-            List<Features> manhattanPlaces = new List<Features>();
             FeatureCollection Places = JsonConvert.DeserializeObject < FeatureCollection > (readFile);
 
-            ListAll(Places);
-            
+
             var listAllPlaces = Places.features.Select(feature => feature.properties.neighborhood);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("______________________________________________________________________________");
+            Console.WriteLine("                             Method LINQ");
+            Console.WriteLine("______________________________________________________________________________");
+
             int counter = 1;
-            Console.WriteLine("Method LINQ\n");
             foreach (var f in listAllPlaces)
             {
                 Console.WriteLine($"{counter} {f}");
                 counter++;
             }
+
+
+            Neighborhoods(Places);
+            NoDuplicates(Places);
+            SingleQuery(Places);
+
+            Console.ReadKey();
         }
-        public static void ListAll(FeatureCollection ex)
+        public static void ListAll(FeatureCollection Places)
     {
-            var filter = from Features in ex.features
+            var filter = from Features in Places.features
                           select Features.properties.neighborhood;
-            int counter = 1;
-            foreach (var f in filter)
-            {
-                Console.WriteLine($"{counter} {f}");
-                counter++;
-            }
+            
         }
-        public static void Neighborhoods(FeatureCollection ex)
+        public static void Neighborhoods(FeatureCollection Places)
         {
-            var filter = from Feature in ex.features
+            var filter = from Feature in Places.features
                          where Feature.properties.neighborhood != ""
                          select Feature.properties.neighborhood;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("______________________________________________________________________________");
+            Console.WriteLine("                      neighborhoods with Name ");
+            Console.WriteLine("______________________________________________________________________________");
 
             int counter = 0;
             foreach (var feature in filter)
@@ -50,13 +58,19 @@ namespace LINQ
                 Console.WriteLine($"{counter} {feature}");
             }
         }
-        public static void NoDuplicates(FeatureCollection ex)
+        public static void NoDuplicates(FeatureCollection Places)
         {
-            var noDuplicates = from Feature in ex.features
-                           where Feature.properties.neighborhood != ""
-                           select Feature.properties.neighborhood.Distinct();
+            var noDuplicates = (from Feature in Places.features
+                                where Feature.properties.neighborhood != ""
+                                select Feature.properties.neighborhood).Distinct(); ;
+            
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+
             int counter = 0;
-            Console.WriteLine("Duplicates");
+            Console.WriteLine("______________________________________________________________________________");
+            Console.WriteLine("                       No Duplicates");
+            Console.WriteLine("______________________________________________________________________________");
+
             foreach (var feature in noDuplicates)
             {
                 counter++;
@@ -64,14 +78,19 @@ namespace LINQ
             }
         }
 
-        public static void SingleQuery(FeatureCollection ex)
+        public static void SingleQuery(FeatureCollection Places)
         {
-            var single = from Feature in ex.features
-                           where Feature.properties.neighborhood != ""
-                           select Feature.properties.neighborhood.Distinct();
+            var single = from Feature in Places.features where Feature.properties.neighborhood != "" select Feature.properties.neighborhood;
+            var SingleQ = single.Distinct();
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.WriteLine("______________________________________________________________________________");
+            Console.WriteLine("                        Single Query Line");
+            Console.WriteLine("______________________________________________________________________________");
+
             int counter = 0;
-            Console.WriteLine("Single Query Line");
-            foreach (var feature in single)
+            foreach (var feature in SingleQ)
             {
                 counter++;
                 Console.WriteLine($"{counter} {feature}");
